@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>NEULAND. Eastergame</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="//fast.fonts.net/jsapi/f3a0ee99-6c18-4452-9a81-872c4765b13c.js"></script>
   <script src="https://unpkg.com/js-life@0.14.14-beta/dist/life.min.js"></script>
   <style>
@@ -38,11 +39,14 @@
     font-size: 2rem;
   }
 
-  @media (max-width: 37em) {
+  @media only screen and (max-width: 37em) {
 
     .egg {
-      width: 2rem;
-      height: 2.8125rem;
+      width: 2rem !important;
+      height: 2.8125rem !important;
+    }
+    .egg .logo {
+      font-size: 1rem;
     }
 
   }
@@ -74,10 +78,6 @@
 
   /* State management */
   const state = {
-    counter: 0,
-    getCount() {
-      return state.counter.toString();
-    },
     eggs: 10,
     getEggs() {
       return state.eggs.toString();
@@ -112,7 +112,7 @@
   Life.renderElement(
     Life.div({class: 'counter'},
     Life.p('Score: ',
-    Life.span({'observe-innerHTML': state.getCount}, state.counter.toString())),
+    Life.span({})),
   )
 )
 
