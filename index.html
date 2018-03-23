@@ -61,6 +61,18 @@
     interval: 1000
   }
 
+  /* Colors */
+  const colors = [
+    '#212A36',
+    '#FEFEFE',
+    '#8DACCC',
+    '#D1D7DC',
+    '#8B9798',
+    '#E68F4C',
+    '#E7E28C',
+    'rgb(30, 30, 30)'
+  ]
+
   /* State management */
   const state = {
     counter: 0,
@@ -81,6 +93,7 @@
     const topFactor = Math.floor(Math.random() * 9) + 1;
     const leftFactor = Math.floor(Math.random() * 9) + 1;
     const sizeFactor = Math.floor(Math.random() * 5) + 2;
+    const colorFactor = Math.floor(Math.random() * 8);
 
     const animationTopFactor = ( Math.round(Math.random()) > 0.5 ? Math.floor(Math.random() * 5) + 1 : Math.floor(Math.random() * -5) + 1);
     const animationLeftFactor = ( Math.round(Math.random()) > 0.5 ? Math.floor(Math.random() * 5) + 1 : Math.floor(Math.random() * -5) + 1);
@@ -91,7 +104,8 @@
       width: sizeFactor * 32,
       height: sizeFactor * 45,
       x: animationLeftFactor * 10,
-      y: animationTopFactor *10
+      y: animationTopFactor *10,
+      colorFactor
     }
   }
 
@@ -107,7 +121,7 @@
 const egg = () => {
   const eggProb = getProberties();
   let el = Life.div(
-    {class: 'egg', style: `top: ${eggProb.top}%; left: ${eggProb.left}%; width: ${eggProb.width}px; height: ${eggProb.height}px`, click: function(){
+    {class: 'egg', style: `background-color: ${colors[eggProb.colorFactor]};top: ${eggProb.top}%; left: ${eggProb.left}%; width: ${eggProb.width}px; height: ${eggProb.height}px`, click: function(){
       state.counter += 1;
       state.eggs -= 1;
       Life.removeElement(this);
