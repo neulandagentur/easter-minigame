@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>NEULAND. Eastergame</title>
+  <link href="https://fonts.googleapis.com/css?family=Cousine" rel="stylesheet">
+  <script src="https://unpkg.com/js-life@0.14.14-beta/dist/life.min.js"></script>
+  <style>
+
+  /* Mini - Reset */
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  #app {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+
+  /* Egg */
+  .egg {
+    position: absolute;
+    background-color: rgb(30, 30, 30);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    cursor: pointer;
+  }
+  .egg .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(255, 255, 255);
+    font-family: 'Cousine', monospace;
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+</style>
+</head>
+<body>
+
+  <div id="app"></div>
+
+  <script>
+
+  /* Config */
+  const config = {
+    maxEggs: 25,
+    interval: 1000
+  }
+
+  /* State management */
+  const state = {
+    counter: 0,
+    getCount() {
+      return state.counter.toString();
+    },
+    eggs: 10,
+    getEggs() {
+      return state.eggs.toString();
+    }
+  }
+
+  /* Mount app */
+  Life.setMountNode(document.querySelector('#app'));
+
+  /* Func that returns the egg proberties */
+  const getProberties = () => {
+    const topFactor = Math.floor(Math.random() * 9) + 1;
+    const leftFactor = Math.floor(Math.random() * 9) + 1;
+    const sizeFactor = Math.floor(Math.random() * 5) + 2;
+
+    const animationTopFactor = ( Math.round(Math.random()) > 0.5 ? Math.floor(Math.random() * 5) + 1 : Math.floor(Math.random() * -5) + 1);
+    const animationLeftFactor = ( Math.round(Math.random()) > 0.5 ? Math.floor(Math.random() * 5) + 1 : Math.floor(Math.random() * -5) + 1);
+
+    return {
+      top: topFactor * 10,
+      left: leftFactor* 10,
+      width: sizeFactor * 32,
+      height: sizeFactor * 45,
+      x: animationLeftFactor * 10,
+      y: animationTopFactor *10
+    }
+  }
+
+  // Render counter
+  Life.renderElement(
+    Life.div({class: 'counter'},
+    Life.p('Score: ',
+    Life.span({'observe-innerHTML': state.getCount}, state.counter.toString())),
+  )
+)
+
+// This is where the eggs come from
+const egg = () => {
+  const eggProb = getProberties();
+  let el = Life.div(
+    {class: 'egg', style: `top: ${eggProb.top}%; left: ${eggProb.left}%; width: ${eggProb.width}px; height: ${eggProb.height}px`, click: function(){
+      state.counter += 1;
+      state.eggs -= 1;
+      Life.removeElement(this);
+      if(state.eggs === 0) {
+        alert('You got it!')
+      }
+    }},
+    Life.span({class: 'logo'}, 'N')
+  );
+  el.animate(
+    [
+      {transform: 'translate(0, 0)'},
+      {transform: `translate(${eggProb.x}px, ${eggProb.y}px)`},
+      {transform: 'translate(0, 0)'}
+    ], {
+      duration: 3000,
+      iterations: Infinity
+    }
+  )
+  return el;
+}
+
+
+for(let i = 0; i < 10; i++) {
+  Life.renderElement(egg())
+}
+
+
+setInterval(function(){
+
+  if(state.eggs > 0 && state.eggs < config.maxEggs) {
+    Life.renderElement(egg())
+    state.eggs += 1;
+  }
+
+}, config.interval)
+
+
+</script>
+
+
+</body>
+</html>
