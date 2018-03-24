@@ -147,4 +147,12 @@ success .title {
     font-size: 1rem;
   }
 
+  intro {
+    padding: 1.25rem;
+  }
+
+  success {
+    padding: 1.25rem;
+  }
+
 }
