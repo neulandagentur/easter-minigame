@@ -1,0 +1,116 @@
+/* Mini - Reset */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Basics */
+#app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Intro */
+
+intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(30, 30, 30, .7);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+intro .inside {
+  background-color: rgb(255, 255, 255);
+  border-radius: 0.25rem;
+  padding: 1.25rem;
+  text-align: center;
+}
+intro .title {
+  font-size: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+intro .text {
+  margin-bottom: 1.25rem;
+}
+intro button {
+  border-width: 0.125rem;
+  border-style: solid;
+  color: rgb(255, 255, 255);
+  margin: 0 0.625rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all .5s ease;
+}
+intro button:nth-child(1) {
+  border-color: rgba(26, 106, 129, .7);
+  color: rgba(26, 106, 129, .7);
+}
+intro button:nth-child(1):hover {
+  background-color: rgba(26, 106, 129, .7);
+}
+intro button:nth-child(2) {
+  border-color: rgba(26, 106, 129, .8);
+  color: rgba(26, 106, 129, .8);
+}
+intro button:nth-child(2):hover {
+  background-color: rgba(26, 106, 129, .8);
+}
+intro button:nth-child(3) {
+  border-color: rgba(26, 106, 129, 1);
+  color: rgba(26, 106, 129, 1);
+}
+intro button:nth-child(3):hover {
+  background-color: rgba(26, 106, 129, 1);
+}
+intro button:hover {
+  color: rgb(255, 255, 255);
+}
+
+/* Egg */
+.egg {
+  position: absolute;
+  background-color: rgb(30, 30, 30);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  cursor: pointer;
+  animation: fadeIn .5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.egg .logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(255, 255, 255);
+  font-family:'Univers LT W01_57 Condensed';
+  font-size: 2rem;
+}
+
+@media only screen and (max-width: 37em) {
+
+  .egg {
+    width: 2rem !important;
+    height: 2.8125rem !important;
+  }
+  .egg .logo {
+    font-size: 1rem;
+  }
+
+}

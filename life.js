@@ -25,7 +25,7 @@
     *
     * @type {String}
     */
-  const version = '0.15.15-beta';
+  const version = '0.15.16-beta';
 
   /**
     * Array which stores the items that get observed
@@ -697,6 +697,15 @@
     */
 
   /**
+    * returns an <button> element
+    *
+    * @public
+    * @param {*} args Object | String | Array
+    * @returns {dom} element
+    */
+  const button = (...args) => createElement('button', ...args);
+
+  /**
     * returns an <aside> element
     *
     * @public
@@ -994,6 +1003,15 @@
         this.element.appendChild(this.template());
       }
     }
+
+    /**
+      * remove component
+      *
+      */
+    remove() {
+      removeElement(this.element);
+    }
+
   }
 
   /**
@@ -1228,6 +1246,7 @@
     option,
     form,
     legend,
+    button,
     aside,
     article,
     body,

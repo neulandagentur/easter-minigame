@@ -5,65 +5,8 @@
   <title>NEULAND. Eastergame</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="//fast.fonts.net/jsapi/f3a0ee99-6c18-4452-9a81-872c4765b13c.js"></script>
-  <!-- <script src="https://unpkg.com/js-life@0.15.16-beta/dist/life.min.js"></script> -->
+  <link rel="stylesheet" href="styles.css">
   <script src="life.js"></script>
-  <style>
-
-  /* Mini - Reset */
-  * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-  }
-
-  #app {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  /* Egg */
-  .egg {
-    position: absolute;
-    background-color: rgb(30, 30, 30);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    cursor: pointer;
-    animation: fadeIn .5s;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  .egg .logo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: rgb(255, 255, 255);
-    font-family:'Univers LT W01_57 Condensed';
-    font-size: 2rem;
-  }
-
-  @media only screen and (max-width: 37em) {
-
-    .egg {
-      width: 2rem !important;
-      height: 2.8125rem !important;
-    }
-    .egg .logo {
-      font-size: 1rem;
-    }
-
-  }
-
-</style>
 </head>
 <body>
 
@@ -72,10 +15,23 @@
   <script>
 
   /* Config */
-  const config = {
-    maxEggs: 25,
+
+  const easy = {
+    maxEggs: 15,
+    interval: 2000
+  }
+
+  const medium = {
+    maxEggs: 20,
     interval: 1000
   }
+
+  const hard = {
+    maxEggs: 30,
+    interval: 750
+  }
+
+  let level = {};
 
   /* Colors */
   const colors = [
@@ -121,6 +77,40 @@
   }
 
 
+  /* Dialog */
+
+  const Intro = new Life.Component({
+
+    name: 'intro',
+    template() {
+      return (
+        Life.div({class: 'inside'},
+          Life.h1({class: 'title'}, 'NEULAND. Oster-Online-Spiel'),
+          Life.div({class: 'text'}, 'Ziel des Spiels ist es alle Eier zu bekommen.'),
+          Life.div({class: 'options'},
+            Life.button('Stufe 1: Osterhase mit Kater', {click: () => {
+              initGame(easy);
+              this.remove();
+            }}),
+            Life.button('Stufe 2: Durchschnittlicher Osterhase', {click: () => {
+              initGame(medium);
+              this.remove();
+            }}),
+            Life.button('Stufe 3: Osterhase mit Koffein-Überdosis', {click: () =>{
+              initGame(hard);
+              this.remove();
+            }})
+          )
+        )
+      )
+    },
+    mount: document.querySelector('#app')
+  });
+
+  Intro.render();
+
+
+
   /* Counter Compoent */
   const Counter = new Life.Component({
     name: 'counter-comp',
@@ -138,14 +128,6 @@
     },
     mount: document.querySelector('#app')
   })
-
-  Counter.render();
-  const Timer = setInterval(function(){
-
-  Counter.data.timer += 1;
-  Counter.update();
-    Counter.update();
-  }, 1000);
 
 
   // This is where the eggs come from
@@ -175,22 +157,29 @@
     return el;
   }
 
-
-  for(let i = 0; i < 10; i++) {
-    Life.renderElement(egg())
-  }
-
-
-  const eggMaker = setInterval(function(){
-
-    if(state.eggs > 0 && state.eggs < config.maxEggs) {
+  const initGame = config => {
+    for(let i = 0; i < 10; i++) {
       Life.renderElement(egg())
-      state.eggs += 1;
     }
 
-  }, config.interval)
+    setInterval(function(){
 
+      if(state.eggs > 0 && state.eggs < config.maxEggs) {
+        Life.renderElement(egg())
+        state.eggs += 1;
+      }
 
+    }, config.interval)
+
+    Counter.render();
+    const Timer = setInterval(function(){
+      if(state.eggs > 0) {
+        Counter.data.timer += 1;
+        Counter.update();
+      }
+    }, 1000);
+
+  }
 
 </script>
 
