@@ -14,6 +14,12 @@
   font-family:'Univers LT W01_57 Condensed';
 }
 
+/* Counter  */
+counter-comp {
+  text-align: center;
+  padding: 0.625rem;
+}
+
 /* Intro */
 intro {
   position: fixed;
