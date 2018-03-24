@@ -17,21 +17,22 @@
   /* Config */
 
   const easy = {
+    name: 'easy',
     maxEggs: 15,
     interval: 2000
   }
 
   const medium = {
+    name: 'medium',
     maxEggs: 20,
     interval: 1000
   }
 
   const hard = {
+    name: 'hard',
     maxEggs: 30,
     interval: 750
   }
-
-  let level = {};
 
   /* Colors */
   const colors = [
@@ -78,7 +79,6 @@
 
 
   /* Dialog */
-
   const Intro = new Life.Component({
 
     name: 'intro',
@@ -109,6 +109,25 @@
 
   Intro.render();
 
+  const Success = new Life.Component({
+    name: 'success',
+    template() {
+
+      return (
+        Life.div({class: 'inside'},
+          Life.a({class: 'logo'},
+            Life.img({src: './assets/logo.svg'})
+          ),
+          Life.h2({class: 'title'}, this.data.message)
+        )
+      )
+    },
+    mount: document.querySelector('#app'),
+    data: {
+      message: ''
+    }
+  })
+
 
 
   /* Counter Compoent */
@@ -131,7 +150,7 @@
 
 
   // This is where the eggs come from
-  const egg = () => {
+  const egg = (mode) => {
     const eggProb = getProberties();
     let el = Life.div(
       {class: 'egg', style: `background-color: ${colors[eggProb.colorFactor]};top: ${eggProb.top}%; left: ${eggProb.left}%; width: ${eggProb.width}px; height: ${eggProb.height}px`, click: function(){
@@ -139,7 +158,15 @@
         state.eggs -= 1;
         Life.removeElement(this);
         if(state.eggs === 0) {
-          alert('You got it!')
+
+          if(mode.name === 'easy') {
+            Success.data.message = `Du hast es trotz Kater in ${Counter.data.timer} Sekunden geschafft, Glückwunsch. :)`;
+          } else if(mode.name === 'medium') {
+            Success.data.message = `Mit ${Counter.data.timer} Sekunden bist du vielleicht doch mehr als "nur" ein durchschnittlicher Osterhase, Glückwunsch. `;
+          } else if (mode.name === 'hard') {
+            Success.data.message = `Gelöst in ${Counter.data.timer} Sekunden, heute definitiv keinen Kaffee mehr, Glückwunsch. ;)`;
+          }
+          Success.render();
         }
       }},
       Life.span({class: 'logo'}, 'N.')
@@ -159,13 +186,13 @@
 
   const initGame = config => {
     for(let i = 0; i < 10; i++) {
-      Life.renderElement(egg())
+      Life.renderElement(egg(config))
     }
 
     setInterval(function(){
 
       if(state.eggs > 0 && state.eggs < config.maxEggs) {
-        Life.renderElement(egg())
+        Life.renderElement(egg(config))
         state.eggs += 1;
       }
 

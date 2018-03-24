@@ -11,10 +11,10 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  font-family:'Univers LT W01_57 Condensed';
 }
 
 /* Intro */
-
 intro {
   position: fixed;
   top: 0;
@@ -26,6 +26,7 @@ intro {
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: fadeIn 1s;
 }
 intro .inside {
   background-color: rgb(255, 255, 255);
@@ -75,6 +76,34 @@ intro button:hover {
   color: rgb(255, 255, 255);
 }
 
+/* Success */
+success {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(30, 30, 30, .7);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 1s;
+}
+success .logo {
+  margin-bottom: 1.25rem;
+  display: block;
+}
+success .inside {
+  background-color: rgb(255, 255, 255);
+  border-radius: 0.25rem;
+  padding: 1.25rem;
+  text-align: center;
+}
+success .title {
+  font-size: 1rem;
+}
+
 /* Egg */
 .egg {
   position: absolute;
@@ -99,7 +128,6 @@ intro button:hover {
   left: 50%;
   transform: translate(-50%, -50%);
   color: rgb(255, 255, 255);
-  font-family:'Univers LT W01_57 Condensed';
   font-size: 2rem;
 }
 
