@@ -111,11 +111,11 @@ intro button:hover {
     transform: translateY(-60%);
   }
   70% {
-    transform: translate(300px, -60%);
+    transform: translate(200px, -60%);
 
   }
   80% {
-    transform: translate(300px, -0%);
+    transform: translate(200px, -0%);
   }
 }
 
