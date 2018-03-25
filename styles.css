@@ -147,6 +147,15 @@ success .inside {
 success .title {
   font-size: 1rem;
   font-weight: 400;
+  margin-bottom: 1.25rem;
+}
+success .button {
+  display: inline-block;
+  padding: 0.625rem 1.25rem;
+  background-color: rgb(26, 106, 129);
+  color: rgb(255, 255, 255);
+  border-radius: 0.25rem;
+  text-decoration: none;
 }
 
 /* Egg */

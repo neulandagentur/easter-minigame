@@ -123,7 +123,8 @@
           Life.a({class: 'logo'},
             Life.img({src: './assets/logo.svg'})
           ),
-          Life.h2({class: 'title'}, this.data.message)
+          Life.h2({class: 'title'}, this.data.message),
+          Life.a({class: 'button', href: 'javascript:window.location.reload(true)'}, 'Nochmal spielen')
         )
       )
     },
