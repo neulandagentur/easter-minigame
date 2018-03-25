@@ -21,6 +21,10 @@ counter-comp {
 }
 
 /* Intro */
+.container {
+  position: relative;
+  z-index: 2;
+}
 intro {
   position: fixed;
   top: 0;
@@ -28,6 +32,7 @@ intro {
   width: 100%;
   height: 100vh;
   background-color: rgb(30, 30, 30, .7);
+  padding: 1.25rem;
   z-index: 99;
   display: flex;
   align-items: center;
@@ -39,6 +44,7 @@ intro .inside {
   border-radius: 0.25rem;
   padding: 1.25rem;
   text-align: center;
+  z-index: 1;
 }
 intro .title {
   font-size: 1.5rem;
@@ -58,18 +64,18 @@ intro button {
   transition: all .5s ease;
 }
 intro button:nth-child(1) {
+  border-color: rgba(26, 106, 129, .4);
+  color: rgba(26, 106, 129, .4);
+}
+intro button:nth-child(1):hover {
+  background-color: rgba(26, 106, 129, .4);
+}
+intro button:nth-child(2) {
   border-color: rgba(26, 106, 129, .7);
   color: rgba(26, 106, 129, .7);
 }
-intro button:nth-child(1):hover {
-  background-color: rgba(26, 106, 129, .7);
-}
-intro button:nth-child(2) {
-  border-color: rgba(26, 106, 129, .8);
-  color: rgba(26, 106, 129, .8);
-}
 intro button:nth-child(2):hover {
-  background-color: rgba(26, 106, 129, .8);
+  background-color: rgba(26, 106, 129, .7);
 }
 intro button:nth-child(3) {
   border-color: rgba(26, 106, 129, 1);
@@ -81,6 +87,37 @@ intro button:nth-child(3):hover {
 intro button:hover {
   color: rgb(255, 255, 255);
 }
+.bunny {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6rem;
+  z-index: -1;
+  animation: bunny 6s infinite;
+}
+.bunny img {
+  width: 100%;
+  height: auto;
+}
+
+@keyframes bunny {
+  0% {
+    transform: translateY(-0%);
+  }
+  30% {
+    transform: translateY(-90%);
+  }
+  50% {
+    transform: translateY(-60%);
+  }
+  70% {
+    transform: translate(300px, -60%);
+
+  }
+  80% {
+    transform: translate(300px, -0%);
+  }
+}
 
 /* Success */
 success {
@@ -90,6 +127,7 @@ success {
   width: 100%;
   height: 100vh;
   background-color: rgb(30, 30, 30, .7);
+  padding: 1.25rem;
   z-index: 99;
   display: flex;
   align-items: center;
@@ -108,6 +146,7 @@ success .inside {
 }
 success .title {
   font-size: 1rem;
+  font-weight: 400;
 }
 
 /* Egg */
@@ -139,6 +178,7 @@ success .title {
 
 @media only screen and (max-width: 37em) {
 
+
   .egg {
     width: 2rem !important;
     height: 2.8125rem !important;
@@ -146,13 +186,11 @@ success .title {
   .egg .logo {
     font-size: 1rem;
   }
-
-  intro {
-    padding: 1.25rem;
-  }
-
-  success {
-    padding: 1.25rem;
-  }
-
 }
+
+  @media only screen and (max-width: 880px) {
+    intro button {
+      width: 100%;
+      margin: 0 0 0.625rem 0;
+    }
+  }

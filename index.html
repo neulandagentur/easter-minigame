@@ -58,8 +58,8 @@
 
   /* Func that returns the egg proberties */
   const getProberties = () => {
-    const topFactor = Math.floor(Math.random() * 9) + 1;
-    const leftFactor = Math.floor(Math.random() * 9) + 1;
+    const topFactor = Math.floor(Math.random() * 8) + 1;
+    const leftFactor = Math.floor(Math.random() * 8) + 1;
     const sizeFactor = Math.floor(Math.random() * 5) + 2;
     const colorFactor = Math.floor(Math.random() * 7);
 
@@ -84,24 +84,29 @@
     name: 'intro',
     template() {
       return (
-        Life.div({class: 'inside'},
-          Life.h1({class: 'title'}, 'NEULAND. Oster-Online-Spiel'),
-          Life.div({class: 'text'}, 'Ziel des Spiels ist es alle Eier zu bekommen.'),
-          Life.div({class: 'options'},
-            Life.button('Stufe 1: Osterhase mit Kater', {click: () => {
-              initGame(easy);
-              this.remove();
-            }}),
-            Life.button('Stufe 2: Durchschnittlicher Osterhase', {click: () => {
-              initGame(medium);
-              this.remove();
-            }}),
-            Life.button('Stufe 3: Osterhase mit Koffein-Überdosis', {click: () =>{
-              initGame(hard);
-              this.remove();
-            }})
-          )
+
+        Life.div({class: 'container'},
+          Life.div({class: 'bunny'}, Life.img({src: 'assets/bunny.svg'})),
+          Life.div({class: 'inside'},
+            Life.h1({class: 'title'}, 'NEULAND. Oster-Online-Spiel'),
+            Life.div({class: 'text'}, 'Ziel des Spiels ist es alle Eier zu bekommen.'),
+            Life.div({class: 'options'},
+              Life.button('Stufe 1: Osterhase mit Kater', {click: () => {
+                initGame(easy);
+                this.remove();
+              }}),
+              Life.button('Stufe 2: Durchschnittlicher Osterhase', {click: () => {
+                initGame(medium);
+                this.remove();
+              }}),
+              Life.button('Stufe 3: Osterhase mit Koffein-Überdosis', {click: () =>{
+                initGame(hard);
+                this.remove();
+              }})
+            )
         )
+        )
+
       )
     },
     mount: document.querySelector('#app')
