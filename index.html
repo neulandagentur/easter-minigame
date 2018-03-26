@@ -14,6 +14,63 @@
 
   <script>
 
+  function dragElement(elmnt, mode) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (elmnt) {
+      /* if present, the header is where you move the DIV from:*/
+      elmnt.onmousedown = dragMouseDown;
+    } else {
+      /* otherwise, move the DIV from anywhere inside the DIV:*/
+      elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+      e = e || window.event;
+      // get the mouse cursor position at startup:
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+      e = e || window.event;
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      // set the element's new position:
+      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement(e) {
+      /* stop moving when mouse button is released:*/
+      document.onmouseup = null;
+      document.onmousemove = null;
+
+      if(e.clientX < 200 && e.clientY < 200) {
+        Life.removeElement(elmnt)
+        state.counter += 1;
+        state.eggs -= 1;
+        if(state.eggs === 0) {
+
+          if(mode.name === 'easy') {
+            Success.data.message = `Du hast es trotz Kater in ${Counter.data.timer} Sekunden geschafft, Glückwunsch. :)`;
+          } else if(mode.name === 'medium') {
+            Success.data.message = `Mit ${Counter.data.timer} Sekunden bist du vielleicht doch mehr als "nur" ein durchschnittlicher Osterhase, Glückwunsch. `;
+          } else if (mode.name === 'hard') {
+            Success.data.message = `Gelöst in ${Counter.data.timer} Sekunden, heute definitiv keinen Kaffee mehr, Glückwunsch. ;)`;
+          }
+          Success.render();
+        }
+      }
+    }
+
+  }
+
   /* Config */
 
   const easy = {
@@ -134,6 +191,20 @@
     }
   })
 
+  const DragContainer = new Life.Component({
+    name: 'DragContainer',
+    template() {
+      return(
+        Life.div({class: 'container'},
+          Life.img({src: 'assets/eggs.svg'})
+        )
+      )
+    },
+    mount: document.querySelector('#app')
+  })
+
+  DragContainer.render()
+
 
 
   /* Counter Compoent */
@@ -159,24 +230,10 @@
   const egg = (mode) => {
     const eggProb = getProberties();
     let el = Life.div(
-      {class: 'egg', style: `background-color: ${colors[eggProb.colorFactor]};top: ${eggProb.top}%; left: ${eggProb.left}%; width: ${eggProb.width}px; height: ${eggProb.height}px`, click: function(){
-        state.counter += 1;
-        state.eggs -= 1;
-        Life.removeElement(this);
-        if(state.eggs === 0) {
-
-          if(mode.name === 'easy') {
-            Success.data.message = `Du hast es trotz Kater in ${Counter.data.timer} Sekunden geschafft, Glückwunsch. :)`;
-          } else if(mode.name === 'medium') {
-            Success.data.message = `Mit ${Counter.data.timer} Sekunden bist du vielleicht doch mehr als "nur" ein durchschnittlicher Osterhase, Glückwunsch. `;
-          } else if (mode.name === 'hard') {
-            Success.data.message = `Gelöst in ${Counter.data.timer} Sekunden, heute definitiv keinen Kaffee mehr, Glückwunsch. ;)`;
-          }
-          Success.render();
-        }
-      }},
+      {class: 'egg', draggable: true, style: `background-color: ${colors[eggProb.colorFactor]};top: ${eggProb.top}%; left: ${eggProb.left}%; width: ${eggProb.width}px; height: ${eggProb.height}px`},
       Life.span({class: 'logo'}, 'N.')
     );
+    dragElement(el, mode);
     el.animate(
       [
         {transform: 'translate(0, 0)'},
