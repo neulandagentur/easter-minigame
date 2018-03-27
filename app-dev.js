@@ -1,65 +1,65 @@
-function dragElement(elmnt, mode) {
-  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-  const isTouch = 'ontouchstart' in window;
-
-  if(isTouch) {
-    elmnt.ontouchstart = dragMouseDown;
-  } else {
-    elmnt.onmousedown = dragMouseDown;
-  }
-
-  function dragMouseDown(e) {
-    e = e || window.event;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-
-    if(isTouch) {
-      document.ontouchcancel = closeDragElement;
-      document.ontouchmove = elementDrag;
-    } else {
-      document.onmouseup = closeDragElement;
-      document.onmousemove = elementDrag;
-    }
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
-
-  function closeDragElement(e) {
-    console.log(e);
-
-    document.onmouseup = null;
-    document.onmousemove = null;
-    document.ontouchcancel = null;
-    document.ontouchmove = null;
-
-    if(e.clientX < 300 && e.clientY < 300) {
-      Life.removeElement(elmnt)
-      state.counter += 1;
-      state.eggs -= 1;
-      if(state.eggs === 0) {
-
-        if(mode.name === 'easy') {
-          Success.data.message = `Du hast es trotz Kater in ${Counter.data.timer} Sekunden geschafft, Glückwunsch. :)`;
-        } else if(mode.name === 'medium') {
-          Success.data.message = `Mit ${Counter.data.timer} Sekunden bist du vielleicht doch mehr als "nur" ein durchschnittlicher Osterhase, Glückwunsch. `;
-        } else if (mode.name === 'hard') {
-          Success.data.message = `Gelöst in ${Counter.data.timer} Sekunden, heute definitiv keinen Kaffee mehr, Glückwunsch. ;)`;
-        }
-        Success.render();
-      }
-    }
-  }
-
-}
+// function dragElement(elmnt, mode) {
+//   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+//
+//   const isTouch = 'ontouchstart' in window;
+//
+//   if(isTouch) {
+//     elmnt.ontouchstart = dragMouseDown;
+//   } else {
+//     elmnt.onmousedown = dragMouseDown;
+//   }
+//
+//   function dragMouseDown(e) {
+//     e = e || window.event;
+//     pos3 = e.clientX;
+//     pos4 = e.clientY;
+//
+//     if(isTouch) {
+//       document.ontouchcancel = closeDragElement;
+//       document.ontouchmove = elementDrag;
+//     } else {
+//       document.onmouseup = closeDragElement;
+//       document.onmousemove = elementDrag;
+//     }
+//   }
+//
+//   function elementDrag(e) {
+//     e = e || window.event;
+//     pos1 = pos3 - e.clientX;
+//     pos2 = pos4 - e.clientY;
+//     pos3 = e.clientX;
+//     pos4 = e.clientY;
+//     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+//     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+//   }
+//
+//   function closeDragElement(e) {
+//     console.log(e);
+//
+//     document.onmouseup = null;
+//     document.onmousemove = null;
+//     document.ontouchcancel = null;
+//     document.ontouchmove = null;
+//
+//     if(e.clientX < 300 && e.clientY < 300) {
+//       Life.removeElement(elmnt)
+//       state.counter += 1;
+//       state.eggs -= 1;
+//       if(state.eggs === 0) {
+//
+//         if(mode.name === 'easy') {
+//           Success.data.message = `Du hast es trotz Kater in ${Counter.data.timer} Sekunden geschafft, Glückwunsch. :)`;
+//         } else if(mode.name === 'medium') {
+//           Success.data.message = `Mit ${Counter.data.timer} Sekunden bist du vielleicht doch mehr als "nur" ein durchschnittlicher Osterhase, Glückwunsch. `;
+//         } else if (mode.name === 'hard') {
+//           Success.data.message = `Gelöst in ${Counter.data.timer} Sekunden, heute definitiv keinen Kaffee mehr, Glückwunsch. ;)`;
+//         }
+//         Success.render();
+//       }
+//     }
+//   }
+//
+// }
 
 /* Config */
 
@@ -185,17 +185,13 @@ const DragContainer = new Life.Component({
   name: 'DragContainer',
   template() {
     return(
-      Life.div({class: 'container'},
+      Life.div({id: 'dropzone'},
       Life.img({src: 'assets/easter-game-jan-03.svg'})
     )
   )
 },
 mount: document.querySelector('#app')
 })
-
-
-
-
 
 /* Counter Compoent */
 const Counter = new Life.Component({
@@ -223,7 +219,6 @@ const egg = (mode) => {
     {class: 'egg', draggable: true, style: `background-color: ${colors[eggProb.colorFactor]};top: ${eggProb.top}%; left: ${eggProb.left}%; width: ${eggProb.width}px; height: ${eggProb.height}px`},
     Life.span({class: 'logo'}, 'N.')
   );
-  dragElement(el, mode);
   el.animate(
     [
       {transform: 'translate(0, 0)'},
@@ -238,15 +233,25 @@ const egg = (mode) => {
 }
 
 const initGame = config => {
+
+  Life.renderElement(Life.div({class: 'eggscontainer'}));
   DragContainer.render();
   for(let i = 0; i < 10; i++) {
-    Life.renderElement(egg(config))
+    Life.renderElement(egg(config), document.querySelector('.eggscontainer'))
   }
+
+  const draggable = new Draggable.Draggable(document.querySelector('#app'), {
+    draggable: '.egg',
+    // droppable: '#dropzone'
+  });
+
+  draggable.on('drag', () => console.log('droppable:over'));
+
 
   setInterval(function(){
 
     if(state.eggs > 0 && state.eggs < config.maxEggs) {
-      Life.renderElement(egg(config))
+      Life.renderElement(egg(config), document.querySelector('.eggscontainer'))
       state.eggs += 1;
     }
 
