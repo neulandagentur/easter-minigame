@@ -1,68 +1,4 @@
-// function dragElement(elmnt, mode) {
-//   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-//
-//   const isTouch = 'ontouchstart' in window;
-//
-//   if(isTouch) {
-//     elmnt.ontouchstart = dragMouseDown;
-//   } else {
-//     elmnt.onmousedown = dragMouseDown;
-//   }
-//
-//   function dragMouseDown(e) {
-//     e = e || window.event;
-//     pos3 = e.clientX;
-//     pos4 = e.clientY;
-//
-//     if(isTouch) {
-//       document.ontouchcancel = closeDragElement;
-//       document.ontouchmove = elementDrag;
-//     } else {
-//       document.onmouseup = closeDragElement;
-//       document.onmousemove = elementDrag;
-//     }
-//   }
-//
-//   function elementDrag(e) {
-//     e = e || window.event;
-//     pos1 = pos3 - e.clientX;
-//     pos2 = pos4 - e.clientY;
-//     pos3 = e.clientX;
-//     pos4 = e.clientY;
-//     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-//     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-//   }
-//
-//   function closeDragElement(e) {
-//     console.log(e);
-//
-//     document.onmouseup = null;
-//     document.onmousemove = null;
-//     document.ontouchcancel = null;
-//     document.ontouchmove = null;
-//
-//     if(e.clientX < 300 && e.clientY < 300) {
-//       Life.removeElement(elmnt)
-//       state.counter += 1;
-//       state.eggs -= 1;
-//       if(state.eggs === 0) {
-//
-//         if(mode.name === 'easy') {
-//           Success.data.message = `Du hast es trotz Kater in ${Counter.data.timer} Sekunden geschafft, Glückwunsch. :)`;
-//         } else if(mode.name === 'medium') {
-//           Success.data.message = `Mit ${Counter.data.timer} Sekunden bist du vielleicht doch mehr als "nur" ein durchschnittlicher Osterhase, Glückwunsch. `;
-//         } else if (mode.name === 'hard') {
-//           Success.data.message = `Gelöst in ${Counter.data.timer} Sekunden, heute definitiv keinen Kaffee mehr, Glückwunsch. ;)`;
-//         }
-//         Success.render();
-//       }
-//     }
-//   }
-//
-// }
-
 /* Config */
-
 const easy = {
   name: 'easy',
   maxEggs: 15,
@@ -94,7 +30,7 @@ const colors = [
 
 /* State management */
 const state = {
-  eggs: 10,
+  eggs: 1,
   getEggs() {
     return state.eggs.toString();
   }
@@ -124,6 +60,12 @@ const getProberties = () => {
   }
 }
 
+function offset(el) {
+    var rect = el.getBoundingClientRect(),
+    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+    scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return { top: rect.top + scrollTop, left: rect.left + scrollLeft }
+	}
 
 /* Dialog */
 const Intro = new Life.Component({
@@ -164,22 +106,20 @@ Intro.render();
 const Success = new Life.Component({
   name: 'success',
   template() {
-
     return (
       Life.div({class: 'inside'},
       Life.a({class: 'logo'},
       Life.img({src: './assets/logo.svg'})
     ),
     Life.h2({class: 'title'}, this.data.message),
-    Life.a({class: 'button', href: 'javascript:window.location.reload(true)'}, 'Nochmal spielen')
+      Life.a({class: 'button', href: 'javascript:window.location.reload(true)'}, 'Nochmal spielen')
+    )
   )
-)
 },
 mount: document.querySelector('#app'),
 data: {
   message: ''
-}
-})
+}});
 
 const DragContainer = new Life.Component({
   name: 'DragContainer',
@@ -203,13 +143,12 @@ const Counter = new Life.Component({
       Life.span(this.data.timer.toString())
     )
   )
-)
-},
+)},
 data: {
   timer: 0
 },
 mount: document.querySelector('#app')
-})
+});
 
 
 // This is where the eggs come from
@@ -232,26 +171,49 @@ const egg = (mode) => {
   return el;
 }
 
+
+
+
 const initGame = config => {
 
   Life.renderElement(Life.div({class: 'eggscontainer'}));
   DragContainer.render();
-  for(let i = 0; i < 10; i++) {
-    Life.renderElement(egg(config), document.querySelector('.eggscontainer'))
+  for(let i = 0; i < state.eggs; i++) {
+    Life.renderElement(egg(config))
   }
 
   const draggable = new Draggable.Draggable(document.querySelector('#app'), {
     draggable: '.egg',
-    // droppable: '#dropzone'
   });
 
-  draggable.on('drag', () => console.log('droppable:over'));
+  draggable.on('drag:stop', function(e) {
+
+    if(offset(e.mirror).top < DragContainer.element.offsetHeight && offset(e.mirror).left < DragContainer.element.offsetWidth ) {
+      Life.removeElement(e.mirror);
+      Life.removeElement(e.source);
+      state.eggs -= 1;
+
+      if(state.eggs === 0) {
+
+        if(config.name === 'easy') {
+          Success.data.message = `Du hast es trotz Kater in ${Counter.data.timer} Sekunden geschafft, Glückwunsch. :)`;
+        } else if(config.name === 'medium') {
+          Success.data.message = `Mit ${Counter.data.timer} Sekunden bist du vielleicht doch mehr als "nur" ein durchschnittlicher Osterhase, Glückwunsch. `;
+        } else if (config.name === 'hard') {
+          Success.data.message = `Gelöst in ${Counter.data.timer} Sekunden, heute definitiv keinen Kaffee mehr, Glückwunsch. ;)`;
+        }
+        Success.render();
+      }
+
+    }
+
+  });
 
 
   setInterval(function(){
 
     if(state.eggs > 0 && state.eggs < config.maxEggs) {
-      Life.renderElement(egg(config), document.querySelector('.eggscontainer'))
+      Life.renderElement(egg())
       state.eggs += 1;
     }
 
