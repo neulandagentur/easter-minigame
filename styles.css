@@ -202,7 +202,10 @@ success .button {
 
 @media only screen and (max-width: 37em) {
 
-
+  .DragContainer {
+    height: 100px;
+    width: 100px;
+  }
   .egg {
     width: 4rem !important;
     height: 5.625rem !important;
