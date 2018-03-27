@@ -4,9 +4,9 @@ function dragElement(elmnt, mode) {
   const isTouch = 'ontouchstart' in window;
 
   if(isTouch) {
-    elmnt.onmousedown = dragMouseDown;
-  } else {
     elmnt.ontouchstart = dragMouseDown;
+  } else {
+    elmnt.onmousedown = dragMouseDown;
   }
 
   function dragMouseDown(e) {
