@@ -1,17 +1,26 @@
 function dragElement(elmnt, mode) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (elmnt) {
+
+  const isTouch = 'ontouchstart' in window;
+
+  if(isTouch) {
     elmnt.onmousedown = dragMouseDown;
   } else {
-    elmnt.onmousedown = dragMouseDown;
+    elmnt.ontouchstart = dragMouseDown;
   }
 
   function dragMouseDown(e) {
     e = e || window.event;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
+
+    if(isTouch) {
+      document.ontouchcancel = closeDragElement;
+      document.ontouchmove = elementDrag;
+    } else {
+      document.onmouseup = closeDragElement;
+      document.onmousemove = elementDrag;
+    }
   }
 
   function elementDrag(e) {
@@ -25,9 +34,12 @@ function dragElement(elmnt, mode) {
   }
 
   function closeDragElement(e) {
-    /* stop moving when mouse button is released:*/
+    console.log(e);
+
     document.onmouseup = null;
     document.onmousemove = null;
+    document.ontouchcancel = null;
+    document.ontouchmove = null;
 
     if(e.clientX < 300 && e.clientY < 300) {
       Life.removeElement(elmnt)
