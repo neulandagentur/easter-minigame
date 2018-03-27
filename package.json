@@ -1,0 +1,22 @@
+{
+  "name": "easter-minigame",
+  "version": "1.0.0",
+  "description": "Easter-Minigame",
+  "main": "app-dev.js",
+  "scripts": {
+    "build": "babel app-dev.js -o app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neulandagentur/easter-minigame.git"
+  },
+  "author": "Jan-Markus Langer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neulandagentur/easter-minigame/issues"
+  },
+  "homepage": "https://github.com/neulandagentur/easter-minigame#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  }
+}

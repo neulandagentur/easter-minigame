@@ -124,8 +124,13 @@ DragContainer {
   position: fixed;
   top: 0;
   left: 0;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
+  padding: 1.25rem;
+}
+DragContainer img {
+  width: 100%;
+  height: auto;
 }
 
 /* Success */
