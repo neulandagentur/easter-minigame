@@ -71,7 +71,7 @@ intro a.button {
 }
 intro a.button::after {
   content: " ";
-  width: 10%;
+  width: 50px;
   height: 100%;
   display: block;
   position: absolute;
