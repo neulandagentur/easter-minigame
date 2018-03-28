@@ -94,7 +94,7 @@ const Success = new Life.Component({
   template() {
     return (
       Life.div({class: 'inside'},
-        Life.a({class: 'logo'},
+        Life.a({class: 'logo', href: 'https://www.neuland-agentur.com'},
           Life.img({src: './assets/logo.svg'})
         ),
         Life.h2({class: 'title'}, this.data.message),
