@@ -15,6 +15,7 @@
   font-family:'Univers LT W01_57 Condensed';
   background-image: url(./assets/bg.svg);
   background-size: cover;
+  color: rgb(60, 60, 60);
 }
 
 /* Counter  */
@@ -27,6 +28,9 @@ counter-comp {
   border-radius: 0.25rem;
   padding: 0.625rem 1.25rem;
   display: inline-block;
+}
+counter-comp p {
+  color: rgb(60, 60, 60);
 }
 
 /* Button */
