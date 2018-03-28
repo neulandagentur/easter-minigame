@@ -30,7 +30,7 @@ const colors = [
 
 /* State management */
 const state = {
-  eggs: 1,
+  eggs: 10,
   getEggs() {
     return state.eggs.toString();
   }
@@ -209,10 +209,10 @@ const initGame = config => {
       }
 
     } else {
-      setTimeout(()=>{
-        e.source.setAttribute('style',e.mirror.getAttribute('style'));
-      }, 500)
-      // console.log(e.mirror.getAttribute('style'))
+      console.table(e);
+      e.originalSource.style.top = offset(e.mirror).top + 'px';
+      e.originalSource.style.left = offset(e.mirror).left + 'px';
+      // e.originalSource.setAttribute('style',e.mirror.getAttribute('style'));
     }
 
   });
@@ -220,10 +220,10 @@ const initGame = config => {
 
   setInterval(function(){
 
-    // if(state.eggs > 0 && state.eggs < config.maxEggs) {
-    //   Life.renderElement(egg())
-    //   state.eggs += 1;
-    // }
+    if(state.eggs > 0 && state.eggs < config.maxEggs) {
+      Life.renderElement(egg())
+      state.eggs += 1;
+    }
 
   }, config.interval)
 
