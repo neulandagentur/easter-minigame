@@ -133,6 +133,7 @@ const DragContainer = new Life.Component({
 mount: document.querySelector('#app')
 })
 
+
 /* Counter Compoent */
 const Counter = new Life.Component({
   name: 'counter-comp',
@@ -186,14 +187,16 @@ const initGame = config => {
   });
 
   draggable.on('drag:start', (e) => {
-    e.source.style.opacity = '0';
+    e.originalSource.style.display = 'none';
   });
 
   draggable.on('drag:stop', (e) => {
 
     if(offset(e.mirror).top < DragContainer.element.offsetHeight && offset(e.mirror).left < DragContainer.element.offsetWidth ) {
+      DragContainer.element.querySelector('img').setAttribute('src', 'assets/easter-game-jan-02.svg');
       Life.removeElement(e.mirror);
       Life.removeElement(e.source);
+      Life.removeElement(e.originalSource);
       state.eggs -= 1;
 
       if(state.eggs === 0) {
