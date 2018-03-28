@@ -19,8 +19,14 @@
 
 /* Counter  */
 counter-comp {
-  text-align: center;
-  padding: 0.625rem;
+  position: fixed;
+  top: 0.625rem;
+  left: 0.625rem;
+  background-color: rgb(255, 255, 255);
+  color: rgb(60, 60, 60);
+  border-radius: 0.25rem;
+  padding: 0.625rem 1.25rem;
+  display: inline-block;
 }
 
 /* Button */
