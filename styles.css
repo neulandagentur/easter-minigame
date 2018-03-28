@@ -179,10 +179,16 @@ success .button {
 /* Egg */
 .egg {
   position: absolute;
-  background-color: rgb(30, 30, 30);
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
   cursor: pointer;
   animation: fadeIn .5s;
+}
+.egg img:hover {
+  transform: scale(1.1);
+}
+.egg img {
+  transition: transform .5s linear;
+  width: 100%;
+  height: auto;
 }
 
 @keyframes fadeIn {
