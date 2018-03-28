@@ -176,7 +176,6 @@ const egg = (mode) => {
 
 const initGame = config => {
 
-  Life.renderElement(Life.div({class: 'eggscontainer'}));
   DragContainer.render();
   for(let i = 0; i < state.eggs; i++) {
     Life.renderElement(egg(config))
@@ -186,7 +185,11 @@ const initGame = config => {
     draggable: '.egg',
   });
 
-  draggable.on('drag:stop', function(e) {
+  draggable.on('drag:start', (e) => {
+    e.source.style.opacity = '0';
+  });
+
+  draggable.on('drag:stop', (e) => {
 
     if(offset(e.mirror).top < DragContainer.element.offsetHeight && offset(e.mirror).left < DragContainer.element.offsetWidth ) {
       Life.removeElement(e.mirror);
@@ -205,6 +208,11 @@ const initGame = config => {
         Success.render();
       }
 
+    } else {
+      setTimeout(()=>{
+        e.source.setAttribute('style',e.mirror.getAttribute('style'));
+      }, 500)
+      // console.log(e.mirror.getAttribute('style'))
     }
 
   });
@@ -212,10 +220,10 @@ const initGame = config => {
 
   setInterval(function(){
 
-    if(state.eggs > 0 && state.eggs < config.maxEggs) {
-      Life.renderElement(egg())
-      state.eggs += 1;
-    }
+    // if(state.eggs > 0 && state.eggs < config.maxEggs) {
+    //   Life.renderElement(egg())
+    //   state.eggs += 1;
+    // }
 
   }, config.interval)
 
