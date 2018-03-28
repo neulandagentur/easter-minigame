@@ -56,39 +56,66 @@ intro .title {
 intro .text {
   margin-bottom: 1.25rem;
 }
-intro button {
-  border-width: 0.125rem;
-  border-style: solid;
-  color: rgb(255, 255, 255);
+intro a.button {
   margin: 0 0.625rem;
   padding: 0.625rem 1.25rem;
   border-radius: 0.25rem;
+  border: 0;
   cursor: pointer;
-  transition: all .5s ease;
-}
-intro button:nth-child(1) {
-  border-color: rgba(26, 106, 129, .4);
-  color: rgba(26, 106, 129, .4);
-}
-intro button:nth-child(1):hover {
-  background-color: rgba(26, 106, 129, .4);
-}
-intro button:nth-child(2) {
-  border-color: rgba(26, 106, 129, .7);
-  color: rgba(26, 106, 129, .7);
-}
-intro button:nth-child(2):hover {
-  background-color: rgba(26, 106, 129, .7);
-}
-intro button:nth-child(3) {
-  border-color: rgba(26, 106, 129, 1);
-  color: rgba(26, 106, 129, 1);
-}
-intro button:nth-child(3):hover {
-  background-color: rgba(26, 106, 129, 1);
-}
-intro button:hover {
   color: rgb(255, 255, 255);
+  transition: all .5s ease;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+intro a.button::after {
+  content: " ";
+  width: 10%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -2;
+}
+intro a.button::before {
+  content: " ";
+  position: absolute;
+  left: 10%;
+  top: 50%;
+  transform: translate(-10px, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 60%;
+  z-index: -1;
+}
+intro a.button:nth-child(1) {
+  background-color: rgb(0, 204, 38);
+}
+intro a.button:nth-child(1)::before {
+  background-color: rgb(0, 204, 38);
+}
+intro a.button:nth-child(1)::after {
+  background-color: rgb(0, 127, 24);
+}
+intro a.button:nth-child(2) {
+  background-color: rgb(255, 184, 13);
+}
+intro a.button:nth-child(2)::before {
+  background-color: rgb(255, 184, 13);
+}
+intro a.button:nth-child(2)::after {
+  background-color: rgb(232, 145, 12);
+}
+intro a.button:nth-child(3) {
+  background-color: rgb(204, 0, 61);
+}
+intro a.button:nth-child(3)::before {
+  background-color: rgb(204, 0, 61);
+}
+intro a.button:nth-child(3)::after {
+  background-color: rgb(127, 0, 38);
 }
 .bunny {
   position: absolute;
@@ -169,7 +196,7 @@ success .title {
   font-weight: 400;
   margin-bottom: 1.25rem;
 }
-success .button {
+success .a.button {
   display: inline-block;
   padding: 0.625rem 1.25rem;
   background-color: rgb(26, 106, 129);
@@ -235,7 +262,7 @@ success .button {
 }
 
   @media only screen and (max-width: 880px) {
-    intro button {
+    intro a.button {
       width: 100%;
       margin: 0 0 0.625rem 0;
     }

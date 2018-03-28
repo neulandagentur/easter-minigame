@@ -69,15 +69,15 @@ const Intro = new Life.Component({
           Life.h1({class: 'title'}, 'NEULAND. Oster-Online-Spiel'),
           Life.div({class: 'text'}, 'Ziel des Spiels ist es alle Eier zu sammeln.'),
           Life.div({class: 'options'},
-            Life.button('Stufe 1: Osterhase mit Kater', {click: () => {
+            Life.a('Stufe 1: Osterhase mit Kater', {class: 'button', click: () => {
               initGame(easy);
               this.remove();
             }}),
-            Life.button('Stufe 2: Durchschnittlicher Osterhase', {click: () => {
+            Life.a('Stufe 2: Durchschnittlicher Osterhase', {class: 'button', click: () => {
               initGame(medium);
               this.remove();
             }}),
-            Life.button('Stufe 3: Osterhase mit Koffein-Überdosis', {click: () =>{
+            Life.a('Stufe 3: Osterhase mit Koffein-Überdosis', {class: 'button', click: () =>{
               initGame(hard);
               this.remove();
             }})
