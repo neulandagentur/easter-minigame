@@ -223,6 +223,11 @@ success a.button::after {
   position: absolute;
   cursor: pointer;
   animation: fadeIn .5s;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 .egg img:hover {
   transform: scale(1.1);
