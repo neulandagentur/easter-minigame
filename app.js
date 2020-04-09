@@ -15,8 +15,10 @@ var hard = {
   name: 'hard',
   maxEggs: 30,
   interval: 500
+
   /* Images */
 };var images = ['blau', 'gelb', 'grau', 'gruen', 'n-blau', 'n-gelb', 'n-grau', 'n-gruen', 'n-neulandgrau', 'petr', 'n-rot', 'neulandgrau', 'petrol', 'rot'];
+
 /* State management */
 var state = {
   eggs: 10,
@@ -24,8 +26,10 @@ var state = {
     return state.eggs.toString();
   }
 };
+
 /* Mount app */
 Life.setMountNode(document.querySelector('#app'));
+
 /* Func that returns the egg proberties */
 var getProberties = function getProberties() {
   var topFactor = Math.floor(Math.random() * 8) + 1;
@@ -88,6 +92,7 @@ var Counter = new Life.Component({
   },
   mount: document.querySelector('#app')
 });
+
 // This is where the eggs come from
 var egg = function egg(mode) {
   var eggProb = getProberties();
